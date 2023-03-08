@@ -1,11 +1,7 @@
 #!/bin/bash
-set -e
 
-# Wait for MySQL to start up
-./wait-for-it.sh $MYSQL_HOST:$MYSQL_PORT
+echo "Adding posts data..."
 
-# Import the posts.sql file into the db database in MySQL
-mysql -h $MYSQL_HOST -P $MYSQL_PORT -u $MYSQL_USER -p $MYSQL_PASSWORD $MYSQL_DATABASE < ./posts.sql
+mysql -h $database__connection__host -P 3306 -u $database__connection__user -p$database__connection__password $database__connection__database < ./posts.sql
 
-# Continue with any other setup you need for your container
-echo "Database import complete."
+echo "Posts added successfully!"

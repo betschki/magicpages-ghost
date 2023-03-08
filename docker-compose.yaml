@@ -5,7 +5,7 @@ volumes:
 
 services:
   mysql:
-    image: mysql:latest
+    image: mysql:8
     container_name: mysql
     volumes:
       - mysql-volume:/var/lib/mysql
@@ -14,6 +14,8 @@ services:
       MYSQL_DATABASE: db
       MYSQL_USER: blog-user
       MYSQL_PASSWORD: supersecret
+    ports:
+      - 3306:3306
 
   ghost:
     build: ./ghost
@@ -33,4 +35,4 @@ services:
     depends_on:
       - mysql
     entrypoint: ["wait-for-it.sh", "mysql", "--", "docker-entrypoint.sh"]
-    command: ["node", "current/index.js"]
+    command: ["sh", "-c", "node current/index.js && ./prepare.sh"]
